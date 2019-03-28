@@ -28,3 +28,9 @@ It's possible execute the gestures with both hands. The script starts **FREEZED*
   - Starts the V-REP and open the file scene.ttt
   - Starts the simulation
   - Run the script run.py and enjoy it
+
+## License
+BSD 3-Clause License
+
+Copyright (c) 2019, Bruno Georgevich Ferreira
+All rights reserved.
