@@ -10,7 +10,9 @@ import tensorflow as tf
 import cv2
 
 import vrep
+import time
 from Model import Topology
+
 
 def set_velocity(handle, velocity):                
         return vrep.simxSetJointTargetVelocity(
@@ -20,14 +22,18 @@ def set_velocity(handle, velocity):
                 vrep.simx_opmode_streaming
                 )
 
-def process_img(img):
-    img = cv2.resize(img, (227, 227));   
+def process_img(img, mean):
+    img = cv2.resize(img, (227, 227));              
+    img = img - mean;  
     img = img[1:225,1:225,:];
     img = np.expand_dims(img, axis=0)    
     return img
                
 
 model = 'Model/model.npy';
+
+mean = np.load('Model/mean.npy');
+mean = np.transpose(mean, (1, 2, 0));
 
 image_scores = np.reshape([np.random.rand(1)[0] for i in range(61)], (61,1))
 
@@ -43,7 +49,7 @@ nn.load(model, sesh)
 velocity = 8
 nitro_gain = 3
 
-freeze_recog = True
+freeze_recog = False
 
 cap = cv2.VideoCapture(0)
 
@@ -54,7 +60,7 @@ while cv2.waitKey(1) != ord('q'):
     
     _, frame = cap.read()
     frame = cv2.resize(frame, (320,240))
-    image_scores = sesh.run(nn.get_output(), feed_dict={input_node: process_img(frame)})
+    image_scores = sesh.run(nn.get_output(), feed_dict={input_node: process_img(frame, mean)})
     
     pred = np.argmax(image_scores, axis=1)[0];
     
@@ -112,8 +118,8 @@ while cv2.waitKey(1) != ord('q'):
             set_velocity(leftMotorID, 0)
         
     cv2.imshow('f1',frame)    
+    cv2.imshow('Features',process_img(frame, mean)[0,:,:,:])    
 
 cap.release()
-cv2.destroyAllWindows()        
-
+cv2.destroyAllWindows()   
 #%%
