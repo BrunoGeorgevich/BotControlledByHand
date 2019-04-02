@@ -49,7 +49,7 @@ nn.load(model, sesh)
 velocity = 8
 nitro_gain = 3
 
-freeze_recog = False
+freeze_recog = True
 
 cap = cv2.VideoCapture(0)
 
