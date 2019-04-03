@@ -28,6 +28,10 @@ It's possible execute the gestures with both hands. The script starts **FREEZED*
   - Starts the V-REP and open the file scene.ttt
   - Starts the simulation
   - Run the script run.py and enjoy it
+  
+## Video
+
+[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/X_Z0I6pzNpc/0.jpg)](http://www.youtube.com/watch?v=X_Z0I6pzNpc)
 
 ## License
 BSD 3-Clause License
